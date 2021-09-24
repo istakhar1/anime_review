@@ -9,7 +9,9 @@ import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 import Box from "@mui/material/Box";
 import StarIcon from "@mui/icons-material/Star";
-import './Details.css'
+import {useState} from 'react';
+import "./Details.css";
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -36,6 +38,8 @@ const labels = {
 
 export default function RecipeReviewCard(props) {
   const { detail } = props;
+  const [review , setReview]=useState("");
+  const [dd , setdd]=useState(false);
   // console.log(detail)
   const {
     cover_image,
@@ -52,21 +56,22 @@ export default function RecipeReviewCard(props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  let msg=""
 
   return (
-    <Card className="Card" sx={{ maxWidth: 900, height: 420, display: "flex" }}>
+    <Card className="Card" sx={{ maxWidth: 900, height: 400, display: "flex" }}>
       <CardMedia
-      className="cardmedial"
+        className="cardmedial"
         component="img"
         height="300"
         width="300"
         image={cover_image}
         alt="Paella dish"
       />
-      <CardContent>
+      <CardContent className="cardcontent">
         <h2>{titles.en}</h2>
         <Typography variant="body2" color="text.secondary">
-          {descriptions.en.split(0,200)}
+          {descriptions.en.slice(0, 300)}
         </Typography>
         <h4>Rating :{score}</h4>
         <h4>Session Year :{season_year}</h4>
@@ -96,9 +101,18 @@ export default function RecipeReviewCard(props) {
             <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
           )}
         </Box>
+        <span>{dd?review:null}</span>
+        <input type="text" placeholder="write review" onChange={(e)=>{
+            console.log(e.target.value);
+            setReview( e.target.value)
+        }} />
+        <button onClick={()=>{
+          setdd(true)
+        }}>Add review</button>
       </CardContent>
 
       <CardActions disableSpacing></CardActions>
+      
     </Card>
   );
 }
