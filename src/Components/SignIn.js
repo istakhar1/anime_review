@@ -29,7 +29,7 @@ import { GoogleLogin, GoogleLogout } from "react-google-login";
 //     </Typography>
 //   );
 // }
-const clintid="543936503413-9qaskq5q54gjumgf3vddatnc7itabv5h.apps.googleusercontent.com"
+const clintid="543936503413-ru08a4ukg3tmsljv4r2c2nhmo0h8sah4.apps.googleusercontent.com"
 const theme = createTheme();
 
 export default function SignIn() {
@@ -46,7 +46,14 @@ export default function SignIn() {
 
   const [showloginbutton, setshowloginbutton] = useState(true);
   const [showlogoutbutton, setshowlogutbutton] = useState(false);
+  const [pass,setpass]=useState(false);
+  const [email,setemail]=useState(false);
   const[searchmenu,setSearchMenu]=useState(false);
+  const gotoSearch=()=>{
+    if(pass===true && email===true){
+      setSearchMenu(true)
+    }
+  }
   const responseGoogle = (response) => {
     console.log(response);
     setSearchMenu(true)
@@ -98,6 +105,13 @@ const responseGoogle2=(response)=>{
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
+                onChange={(e)=>{
+                  const email=e.target.value;
+                  let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                  if(email.match(regexEmail)){
+                  setemail(true)
+                  }
+                }}
                 margin="normal"
                 required
                 fullWidth
@@ -108,6 +122,12 @@ const responseGoogle2=(response)=>{
                 autoFocus
               />
               <TextField
+              onChange={(e)=>{
+                const pass=e.target.value;
+                if(pass!==undefined && pass.length >=8){
+                setpass(true)
+                }
+              }}
                 margin="normal"
                 required
                 fullWidth
@@ -126,6 +146,7 @@ const responseGoogle2=(response)=>{
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                onClick={gotoSearch}
               >
                 Sign In
               </Button>
